@@ -1,0 +1,19 @@
+# .fresh.toml
+
+root = "."
+tmp_dir = "tmp"
+color = "true"
+
+[build]
+  bin = "main"
+  cmd = "go build -o ./tmp/main ./main.go"
+  watch_dir = ["." ]
+  ignore = [""] # Ensure the folder is specified correctly
+
+[log]
+  level = "info"
+  output = "fresh.log"
+
+[http]
+  port = 8080
+  host = "localhost"
