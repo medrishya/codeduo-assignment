@@ -3,3 +3,5 @@ frontend/build/*
 api/test.db/*
 
 api/tmp/*
+api/*.exe
+api/task_manager

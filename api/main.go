@@ -1,6 +1,7 @@
 package main
 
 import (
+	"codeduo-api/cli"
 	"codeduo-api/database"
 	"codeduo-api/models"
 	"codeduo-api/routes"
@@ -13,10 +14,15 @@ import (
 )
 
 func main() {
+	// Initialize the CLI commands and database
+	cli.Init()       
+    cli.Execute() 
+	
 	// Set up ZeroLog
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
 
+	// GIN Framework
 	r := gin.Default()
 
 	// Connect to database
