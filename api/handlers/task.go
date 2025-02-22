@@ -4,9 +4,10 @@ package handlers
 import (
 	"codeduo-api/models"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -88,7 +89,10 @@ func CreateTask(db *gorm.DB) gin.HandlerFunc {
         go func(newTask models.Task) {
 			// For now just logging in the print details on the console.
             // Here you could add logic to send notifications, etc.
-            log.Printf("New Todo created: %+v\n", newTask)
+			log.Info().
+			Interface("task", newTask). // Use Interface to log the whole struct
+			Msg("Created new task")
+
         }(task) 
 		c.JSON(http.StatusCreated, task)
 	}
