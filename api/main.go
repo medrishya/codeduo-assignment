@@ -3,43 +3,36 @@ package main
 import (
 	"codeduo-api/database"
 	"codeduo-api/models"
+	"codeduo-api/routes"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
+	// Set up ZeroLog
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
+
 	r := gin.Default()
 
 	// Connect to database
 	database.ConnectDatabase()
 	database.DB.AutoMigrate(&models.Task{})
-	// Routes
-	r.GET("/tasks", getTasks)
-	r.POST("/tasks", createTask)
+
+	// Setup routes
+	routes.SetupRoutes(r, database.DB)
 
 	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Hello, from Gin!"})
+		c.JSON(http.StatusOK, gin.H{"message": "Hello, from api application of CodeDuo"})
 	})
 
-	r.Run(":8080") // Start server on port 8080
-}
-
-// Get all users
-func getTasks(c *gin.Context) {
-	var tasks []models.Task
-	database.DB.Find(&tasks)
-	c.JSON(http.StatusOK, tasks)
-}
-
-// Create a new user
-func createTask(c *gin.Context) {
-	var task models.Task
-	if err := c.ShouldBindJSON(&task); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	// Start the server
+	if err := r.Run(":8080"); err != nil {
+		log.Fatal().Err(err).Msg("Failed to run server")
 	}
-
-	database.DB.Create(&task)
-	c.JSON(http.StatusOK, task)
+	
 }

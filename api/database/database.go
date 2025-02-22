@@ -2,7 +2,8 @@ package database
 
 import (
 	"codeduo-api/models"
-	"log"
+
+	"github.com/rs/zerolog/log"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -14,12 +15,12 @@ func ConnectDatabase() {
 	var err error
 	DB, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to connect to database:", err)
+		log.Error().Err(err).Msg("Failed to connect to database:")
 	}
-	log.Println("Database connected successfully!")
+	log.Info().Msg("Database connected successfully!")
 }
 
 func MigrateDatabase() {
 	DB.AutoMigrate(&models.Task{})
-	log.Println("Database migrated successfully!")
+	log.Info().Msg("Database migrated successfully!")
 }
