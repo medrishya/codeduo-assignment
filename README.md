@@ -4,12 +4,12 @@ The application is split into two parts, api (in GO) for api server and ui for t
 
 To setup and run the api server,
 
-1. Run `cd api` and run `go mod tidy`.
+1. Run `cd api` and run `go mod tidy` or `go get` to install the modules.
 2. Run `fresh` to start the api server at 8080 port.
 
 To setup and run the frontend application
 
-1. Run `cd ui` and run `npm install`.
+1. Run `cd ui` and run `npm install` to install the node packages.
 2. Run `npm start` to start the application server at 3000 port.
 
 Enjoy the task application.
