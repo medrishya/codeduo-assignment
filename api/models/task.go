@@ -11,8 +11,7 @@ type TaskStatus string
 
 const (
 	Pending  TaskStatus = "pending"
-	Ongoing  TaskStatus = "ongoing"
-	Done     TaskStatus = "done"
+	Completed     TaskStatus = "completed"
 )
 
 // Task model

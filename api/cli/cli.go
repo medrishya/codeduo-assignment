@@ -85,8 +85,8 @@ var processCmd = &cobra.Command{
 func worker() {
     var task models.Task
 
-    // Fetch the first task (pending or ongoing)
-    statuses := []string{string(models.Pending), string(models.Ongoing)}
+    // Fetch the first task pending
+    statuses := []string{string(models.Pending)}
     if err := db.Where("status IN ?", statuses).First(&task).Error; err != nil {
         if err == gorm.ErrRecordNotFound {
 			log.Info().Msg("No task to process. Exiting ... ")
@@ -97,7 +97,7 @@ func worker() {
     }
 
     // Mark the task as done
-    task.Status = models.Done
+    task.Status = models.Completed
 
     // Update the task in the database
     if err := db.Save(&task).Error; err != nil {

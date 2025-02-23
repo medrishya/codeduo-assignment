@@ -1,12 +1,12 @@
 // src/App.tsx
 import React from "react";
-import { Button } from "antd";
+import TaskHandler from "./components/TaskHandler";
 
 const App: React.FC = () => {
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Hello, Ant Design!</h1>
-      <Button type="primary">Click Me</Button>
+    <div style={{ maxWidth: 600, margin: "0 auto" }}>
+      <h1 style={{ marginLeft: "16px" }}>Task Manager</h1>
+      <TaskHandler />
     </div>
   );
 };

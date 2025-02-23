@@ -45,7 +45,7 @@ func GetTasks(db *gorm.DB) gin.HandlerFunc {
 
         // Fetch todos with pagination
         offset := (page - 1) * limit
-        if err := db.Offset(offset).Limit(limit).Find(&tasks).Error; err != nil {
+        if err := db.Order("created_at DESC").Offset(offset).Limit(limit).Find(&tasks).Error; err != nil {
             c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to retrieve tasks."})
             return
         }
@@ -55,7 +55,7 @@ func GetTasks(db *gorm.DB) gin.HandlerFunc {
             "total": total,
             "page":  page,
             "limit": limit,
-            "todos": tasks,
+            "tasks": tasks,
         })
 	}
 }
