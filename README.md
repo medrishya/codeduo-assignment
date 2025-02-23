@@ -5,7 +5,7 @@ The application is split into two parts, api (in GO) for api server and ui for t
 To setup and run the api server,
 
 1. Run `cd api` and run `go mod tidy` or `go get` to install the modules.
-2. Run `fresh` to start the api server at 8080 port.
+2. Run `fresh` or `go run main.go` to start the api server at 8080 port.
 
 To setup and run the frontend application
 
