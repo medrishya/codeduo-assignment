@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"codeduo-api/models"
+	"codeduo-api/utils"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -63,7 +64,15 @@ func GetTasks(db *gorm.DB) gin.HandlerFunc {
 // Get a ToDo by ID
 func GetTaskByID(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		id := c.Param("id")
+		idStr := c.Param("id")
+
+		// Verify if id is a number
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+			return
+		}
+
 		var task models.Task
 
 		if err := db.First(&task, id).Error; err != nil {
@@ -79,8 +88,9 @@ func GetTaskByID(db *gorm.DB) gin.HandlerFunc {
 func CreateTask(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var task models.Task
+
 		if err := c.ShouldBindJSON(&task); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, utils.FormatValidationError(err))
 			return
 		}
 		fmt.Print(task)
